@@ -1,7 +1,7 @@
 o-apiVersion: v1
 kind: Service
 metadata:
-  name: app-test
+  name: first-mychart
   namespace: demo-prod-1
 spec:
   selector:
