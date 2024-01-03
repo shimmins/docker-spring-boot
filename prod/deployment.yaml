@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-test
+  name: first-mychart
   namespace: demo-prod-1
 spec:
   replicas: 3
@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       labels:
-        app: my-spring-app
+        app: first-mychart
     spec:
       containers:
         - name: my-spring-app
