@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-test
+  namespace: prod
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-spring-app
+  template:
+    metadata:
+      labels:
+        app: my-spring-app
+    spec:
+      containers:
+        - name: my-spring-app
+          image: 852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project:4
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: ecr-secret
