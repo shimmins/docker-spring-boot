@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker build -t 852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project:"${VERSION}" .
+                        docker build -t 852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project:${VERSION} .
                     '''
                 }
             }
@@ -37,7 +37,7 @@ pipeline {
                 script {
                     sh '''
                         aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 852524605641.dkr.ecr.us-east-2.amazonaws.com
-                        docker push 852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project:"${VERSION}"
+                        docker push 852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project:${VERSION}
                     '''
                 }
             }
