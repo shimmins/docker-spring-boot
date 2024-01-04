@@ -60,12 +60,10 @@ pipeline {
                     // 다음 버전 계산 (예: 1.14 -> 1.15)
                     def nextVersion = calculateNextVersion(currentVersion)
 
-                    // 새로운 빌드를 위한 파라미터 설정
-                    properties([
-                        parameters([
-                            string(name: 'VERSION', value: nextVersion)
-                        ])
-                    ])
+                    // 전역 변수로 저장
+                    script {
+                        env.VERSION = nextVersion
+                    }
 
                     // 업데이트된 버전 출력
                     echo "Next version: ${nextVersion}"
