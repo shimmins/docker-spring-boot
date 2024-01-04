@@ -6,7 +6,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'VERSION', defaultValue: '1.51', description: 'Version tag parameter')
+        string(name: 'VERSION', defaultValue: '5.51', description: 'Version tag parameter')
     }
     
     stages {
@@ -60,10 +60,8 @@ pipeline {
                     // 다음 버전 계산 (예: 1.14 -> 1.15)
                     def nextVersion = calculateNextVersion(currentVersion)
 
-                    // 전역 변수로 저장
-                    script {
-                        env.VERSION = nextVersion
-                    }
+                    // Jenkins 환경 변수로 설정
+                    currentBuild.buildVariables.VERSION = nextVersion
 
                     // 업데이트된 버전 출력
                     echo "Next version: ${nextVersion}"
