@@ -6,7 +6,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'VERSION', defaultValue: '5.51', description: 'Version tag parameter')
+        string(name: 'VERSION', defaultValue: '6.51', description: 'Version tag parameter')
     }
     
     stages {
@@ -65,6 +65,7 @@ pipeline {
 
                     // 업데이트된 버전 출력
                     echo "Next version: ${nextVersion}"
+                    echo "Current version: ${currentVersion}"
                 }
             }
         }
