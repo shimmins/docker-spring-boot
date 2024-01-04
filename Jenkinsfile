@@ -6,7 +6,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'VERSION', defaultValue: '1.50', description: 'Version tag parameter')
+        string(name: 'VERSION', defaultValue: '1.51', description: 'Version tag parameter')
     }
     
     stages {
