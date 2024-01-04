@@ -5,10 +5,7 @@ pipeline {
         registry = "852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project"
     }
     
-    parameters {
-        string(name: 'VERSION', defaultValue: '1.21', description: 'Version tag parameter')
-    }
-    
+
     stages {
         stage('Checkout') {
             steps {
