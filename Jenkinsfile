@@ -21,7 +21,9 @@ pipeline {
         stage("Build Image") {
             steps {
                 script {
-                    docker.build registry
+                    sh '''
+                        docker build -t 852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project:"${VERSION}" .
+                    '''
                 }
             }
         }
@@ -29,12 +31,21 @@ pipeline {
         stage("Push Image to ECR") {
             steps {
                 script {
-                    sh "aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 852524605641.dkr.ecr.us-east-2.amazonaws.com"
-                    sh "docker push 852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project:latest"
+                    sh '''
+                        aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 852524605641.dkr.ecr.us-east-2.amazonaws.com
+                        docker push 852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project:"${VERSION}"
+                    '''
                 }
             }
         }
         
+        stage('Invoke Sub Pipeline') {
+            steps {
+                build job: 'jenkins-sub-pipeline', parameters: [
+                    string(name: 'VERSION', value: "${params.VERSION}")
+                    ]
+            }
+        }
         
     }
 }
