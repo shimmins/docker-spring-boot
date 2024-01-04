@@ -6,7 +6,7 @@ pipeline {
     }
     
     parameters {
-        string(name: 'VERSION', defaultValue: '1.20', description: 'Version tag parameter')
+        string(name: 'VERSION', defaultValue: '1.21', description: 'Version tag parameter')
     }
     
     stages {
@@ -60,9 +60,12 @@ pipeline {
                     // 다음 버전 계산 (예: 1.14 -> 1.15)
                     def nextVersion = calculateNextVersion(currentVersion)
 
-                    // 파라미터 업데이트
-                    currentBuild.displayName = "Build ${nextVersion}"
-                    params.VERSION = nextVersion
+                    // 새로운 빌드를 위한 파라미터 설정
+                    properties([
+                        parameters([
+                            string(name: 'VERSION', value: nextVersion)
+                        ])
+                    ])
 
                     // 업데이트된 버전 출력
                     echo "Next version: ${nextVersion}"
