@@ -12,8 +12,8 @@ public class StartApplication {
 
     @GetMapping("/")
     public String index(final Model model) {
-        model.addAttribute("title", "Hello World");
-        model.addAttribute("msg", "Minseok CICD TEST2");
+        model.addAttribute("title", "Team Leader Kim yu jin");
+        model.addAttribute("msg", "CICD TEST 3");
         return "index";
     }
 
