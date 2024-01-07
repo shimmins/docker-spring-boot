@@ -5,9 +5,6 @@ pipeline {
         registry = "852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project"
     }
 
-    parameters {
-        string(name: 'VERSION', defaultValue: '6.51', description: 'Version tag parameter')
-    }
     
     stages {
         stage('Checkout') {
@@ -26,7 +23,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker build -t 852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project:${VERSION} .
+                        docker build -t 852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project:$BUILD_NUMBER .
                     '''
                 }
             }
@@ -37,7 +34,7 @@ pipeline {
                 script {
                     sh '''
                         aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 852524605641.dkr.ecr.us-east-2.amazonaws.com
-                        docker push 852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project:${VERSION}
+                        docker push 852524605641.dkr.ecr.us-east-2.amazonaws.com/jenkins_project:$BUILD_NUMBER
                     '''
                 }
             }
@@ -46,38 +43,8 @@ pipeline {
         stage('Invoke Sub Pipeline') {
             steps {
                 build job: 'jenkins-sub-pipeline', parameters: [
-                    string(name: 'VERSION', value: "${params.VERSION}")
+                    string(name: 'VERSION', value: "${BUILD_NUMBER}")
                 ]
             }
         }
 
-        stage('Calculate Next Version') {
-            steps {
-                script {
-                    // 현재 버전을 가져오기
-                    def currentVersion = params.VERSION
-
-                    // 다음 버전 계산 (예: 1.14 -> 1.15)
-                    def nextVersion = calculateNextVersion(currentVersion)
-
-                    // Jenkins 환경 변수로 설정
-                    currentBuild.buildVariables.VERSION = nextVersion
-
-                    // 업데이트된 버전 출력
-                    echo "Next version: ${nextVersion}"
-                    echo "Current version: ${currentVersion}"
-                }
-            }
-        }
-    }
-}
-
-def calculateNextVersion(currentVersion) {
-    // 여기에서 원하는 로직에 따라 다음 버전을 계산
-    // 예: 1.14 -> 1.15
-    def parts = currentVersion.tokenize('.')
-    def major = parts[0] as Integer
-    def minor = parts[1] as Integer
-    def nextMinor = minor + 1
-    return "${major}.${nextMinor}"
-}
