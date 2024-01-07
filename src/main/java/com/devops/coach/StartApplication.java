@@ -13,7 +13,7 @@ public class StartApplication {
     @GetMapping("/")
     public String index(final Model model) {
         model.addAttribute("title", "Nice Success 324328000");
-        model.addAttribute("msg", "LAST TEST SUCCEESS PLEASE MINSEOK");
+        model.addAttribute("msg", "Today is Fucking Monday");
         return "index";
     }
 
